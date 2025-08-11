@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Materi dan Kuis Informatika Kelas XII</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4CAF50; /* Hijau */
+            --secondary-color: #2E7D32; /* Hijau gelap */
+            --accent-color: #FFC107; /* Kuning */
+            --background-color: #e8f5e9; /* Hijau muda */
+            --card-bg-color: #ffffff;
+            --text-color: #212121;
+            --border-color: #c8e6c9;
+            --correct-color: #4CAF50; /* Hijau */
+            --incorrect-color: #F44336; /* Merah */
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.7;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(-45deg, #e8f5e9, #f0f4c3, #e8f5e9);
+            background-size: 400% 400%;
+            animation: gradientMove 15s ease infinite;
+            color: var(--text-color);
+        }
+
+        .header {
+            background: var(--primary-color);
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+            border-bottom-left-radius: 25px;
+            border-bottom-right-radius: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            font-size: 2.8em;
+            margin: 0;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            margin: 10px 0 0;
+        }
+        
+        /* Gaya untuk identitas di header */
+        .identity-info-header {
+            font-size: 1em;
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            display: inline-block;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .identity-info-header strong {
+            font-weight: 700;
+        }
+
+        .identity-info-header a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 600;
+            margin: 0 5px;
+            transition: color 0.3s ease;
+        }
+
+        .identity-info-header a:hover {
+            color: var(--accent-color);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 20px;
+        }
+        
+        .card {
+            background: var(--card-bg-color);
+            padding: 30px;
+            margin-bottom: 25px;
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+            border: 1px solid var(--border-color);
+            animation: fadeIn 1s ease-out forwards;
+            opacity: 0;
+        }
+        .card:nth-child(1) { animation-delay: 0.2s; }
+        .card:nth-child(2) { animation-delay: 0.5s; }
+        .card:nth-child(3) { animation-delay: 0.8s; }
+        
+        h2, h3 {
+            color: var(--secondary-color);
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 8px;
+            margin-top: 0;
+        }
+
+        ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        ul li {
+            margin-bottom: 12px;
+        }
+        ul li strong {
+            color: var(--secondary-color);
+        }
+
+        .quiz-question {
+            margin-bottom: 25px;
+            padding: 20px;
+            background: #f0f4c3;
+            border-radius: 10px;
+            border-left: 4px solid var(--accent-color);
+        }
+        
+        .quiz-question p {
+            font-weight: 600;
+            margin: 0 0 15px 0;
+            color: #333;
+        }
+
+        .options {
+            list-style-type: none;
+            padding: 0;
+        }
+        .options li {
+            margin: 8px 0;
+            padding: 10px;
+            background-color: #fafafa;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .options li:hover {
+            background-color: var(--primary-color);
+            color: white;
+            transform: translateX(5px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        .options li:hover input[type="radio"] {
+            accent-color: var(--accent-color);
+        }
+        .options input[type="radio"] {
+            margin-right: 10px;
+            accent-color: var(--primary-color);
+        }
+
+        .submit-btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            font-size: 1.1em;
+            font-weight: 600;
+            color: white;
+            background-color: var(--accent-color);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        }
+
+        .submit-btn:hover {
+            background-color: #ffb300;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+        }
+        
+        /* Gaya untuk hasil kuis */
+        #results-container {
+            margin-top: 30px;
+            padding: 20px;
+            border-radius: 12px;
+            background: #fff8e1; /* Warna latar belakang hasil */
+            border: 2px solid var(--accent-color);
+            display: none; /* Awalnya sembunyi */
+            animation: fadeIn 1s ease-out forwards;
+        }
+
+        #results-container h3 {
+            color: var(--secondary-color);
+            border-bottom: 2px solid var(--accent-color);
+            padding-bottom: 8px;
+            text-align: center;
+        }
+
+        #score-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        #score-container h4 {
+            margin: 0;
+            font-size: 1.2em;
+            color: var(--secondary-color);
+        }
+        #score {
+            font-size: 2.5em;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin: 5px 0;
+            animation: pulse 1s infinite;
+        }
+        #score-message {
+            font-size: 1.1em;
+            font-style: italic;
+            color: #555;
+        }
+
+        .explanation {
+            margin-bottom: 15px;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid;
+            background: #e8f5e9;
+        }
+        .explanation.correct {
+            border-left-color: var(--correct-color);
+        }
+        .explanation.incorrect {
+            border-left-color: var(--incorrect-color);
+            background: #fde8e8;
+        }
+        .explanation h4 {
+            margin: 0 0 5px;
+            color: var(--secondary-color);
+        }
+        .explanation strong {
+            color: var(--secondary-color);
+        }
+
+        .explanation p {
+            margin: 5px 0 0;
+            font-size: 0.9em;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+            border-top: 1px solid var(--border-color);
+            color: var(--secondary-color);
+            font-size: 0.9em;
+        }
+
+        /* Gaya tambahan untuk informasi di footer */
+        .footer-info {
+            font-size: 0.8em;
+            margin-top: 10px;
+            line-height: 1.5;
+        }
+
+        .footer-info a {
+            color: var(--secondary-color);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .footer-info a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>Materi dan Kuis Informatika Kelas XII</h1>
+        <p>Mempelajari teknologi masa kini dan masa depan</p>
+        <div class="identity-info-header">
+            <strong>Karya:</strong> Reyhan Zada Arsyaka | <strong>Kelas:</strong> XII.2 | <strong>Sekolah:</strong> SMAN 1 Baturetno<br>
+            <a href="https://www.instagram.com/rreyzarsy" target="_blank">IG: @rreyzarsy</a> | 
+            <a href="https://www.tiktok.com/@reyza42025" target="_blank">TikTok: @reyza42025</a>
+        </div>
+    </div>
+
+    <div class="container">
+
+        <div class="card">
+            <h2>Ringkasan Materi</h2>
+            <p>Materi ini berfokus pada pemahaman yang mendalam tentang evolusi teknologi informasi dan dampaknya yang transformatif pada masyarakat, ekonomi, dan budaya. Anda akan diajak memahami konsep-konsep inti yang membentuk dunia digital saat ini, mulai dari fondasi berpikir komputasional hingga teknologi mutakhir seperti kecerdasan buatan, big data, dan Internet of Things. Selain itu, materi ini juga menyoroti pentingnya etika, keamanan siber, dan literasi digital dalam menghadapi tantangan era digital.</p>
+        </div>
+
+        <div class="card">
+            <h2>Penjelasan Rinci Materi</h2>
+            <h3>1. Evolusi dan Dampak Informatika</h3>
+            <ul>
+                <li><strong>Sejarah Teknologi:</strong> Mempelajari garis waktu perkembangan teknologi informasi, dari penemuan komputer pertama hingga era perangkat mobile dan komputasi awan.</li>
+                <li><strong>Literasi Digital:</strong> Bukan hanya kemampuan menggunakan alat, tetapi juga pemahaman kritis terhadap informasi, etika digital, dan cara berinteraksi yang aman di dunia maya.</li>
+                <li><strong>Revolusi Industri 4.0:</strong> Memahami bagaimana teknologi seperti otomatisasi, AI, dan IoT mengubah proses produksi, menciptakan model bisnis baru, dan memengaruhi pasar kerja.</li>
+            </ul>
+
+            <h3>2. Jaringan Komputer dan Keamanan Siber</h3>
+            <ul>
+                <li><strong>Dasar Jaringan:</strong> Mendalami konsep dasar jaringan, seperti cara kerja internet, protokol komunikasi (TCP/IP), dan arsitektur jaringan (LAN, WAN).</li>
+                <li><strong>Model Komunikasi:</strong> Memahami model OSI (Open Systems Interconnection) sebagai kerangka kerja konseptual yang menjelaskan bagaimana data dikirim dari satu perangkat ke perangkat lain.</li>
+                <li><strong>Ancaman dan Perlindungan Siber:</strong> Mengidentifikasi berbagai ancaman siber (malware, phishing, DDoS) dan mempelajari strategi perlindungan, termasuk penggunaan firewall, enkripsi, dan praktik keamanan data yang baik.</li>
+            </ul>
+
+            <h3>3. Konsep Teknologi Masa Depan</h3>
+            <ul>
+                <li><strong>Internet of Things (IoT):</strong> Konsep di balik perangkat fisik yang saling terhubung dan bertukar data secara otomatis, dari perangkat rumah pintar hingga sensor industri.</li>
+                <li><strong>Big Data:</strong> Memahami volume data yang sangat besar dan bagaimana analisisnya dapat mengungkap pola, tren, dan asosiasi yang berguna, terutama untuk pengambilan keputusan.</li>
+                <li><strong>Artificial Intelligence (AI):</strong> Konsep kecerdasan buatan, machine learning, dan deep learning yang memungkinkan komputer untuk belajar dari data dan melakukan tugas yang biasanya membutuhkan kecerdasan manusia.</li>
+                <li><strong>Cloud Computing:</strong> Mempelajari layanan komputasi (server, penyimpanan, basis data) yang disediakan melalui internet, memungkinkan fleksibilitas dan skalabilitas.</li>
+            </ul>
+        </div>
+        
+        <div class="card">
+            <h2>Kuis 10 Soal</h2>
+            <p><strong>Petunjuk:</strong> Pilihlah satu jawaban yang paling tepat dari pilihan yang tersedia. Setiap soal bernilai 5 poin.</p>
+            
+            <form id="quiz-form">
+                <div class="quiz-question">
+                    <p>1. Kemampuan untuk mengidentifikasi informasi palsu, memahami privasi data, dan berinteraksi secara etis di internet disebut...</p>
+                    <ul class="options">
+                        <li><label><input type="radio" name="q1" value="A"> A. Komputasi Awan</label></li>
+                        <li><label><input type="radio" name="q1" value="B"> B. Literasi Digital</label></li>
+                        <li><label><input type="radio" name="q1" value="C"> C. Berpikir Komputasional</label></li>
+                        <li><label><input type="radio" name="q1" value="D"> D. Algoritma</label></li>
+                    </ul>
+                </div>
+
+                <div class="quiz-question">
+                    <p>2. Model konseptual yang membagi komunikasi jaringan menjadi tujuh lapisan, dari fisik hingga aplikasi, adalah...</p>
+                    <ul class="options">
+                        <li><label><input type="radio" name="q2" value="A"> A. Protokol TCP/IP</label></li>
+                        <li><label><input type="radio" name="q2" value="B"> B. Jaringan WAN</label></li>
+                        <li><label><input type="radio" name="q2" value="C"> C. Model OSI</label></li>
+                        <li><label><input type="radio" name="q2" value="D"> D. Enkripsi</label></li>
+                    </ul>
+                </div>
+
+                <div class="quiz-question">
+                    <p>3. Teknologi yang memungkinkan sensor, perangkat, dan objek fisik lainnya untuk saling terhubung dan bertukar data melalui internet adalah...</p>
+                    <ul class="options">
+                        <li><label><input type="radio" name="q3" value="A"> A. Big Data</label></li>
+                        <li><label><input type="radio" name="q3" value="B"> B. Cloud Computing</label></li>
+                        <li><label><input type="radio" name="q3" value="C"> C. Internet of Things (IoT)</label></li>
+                        <li><label><input type="radio" name="q3" value="D"> D. Artificial Intelligence</label></li>
+                    </ul>
+                </div>
+
+                <div class="quiz-question">
+                    <p>4. Analisis data dalam jumlah sangat besar untuk menemukan pola dan wawasan yang tersembunyi dikenal sebagai...</p>
+                    <ul class="options">
+                        <li><label><input type="radio" name="q4" value="A"> A. Cloud Computing</label></li>
+                        <li><label><input type="radio" name="q4" value="B"> B. Big Data</label></li>
+                        <li><label><input type="radio" name="q4" value="C"> C. Machine Learning</label></li>
+                        <li><label><input type="radio" name="q4" value="D"> D. Internet of Things</label></li>
+                    </ul>
+                </div>
+
+                <div class="quiz-question">
+                    <p>5. Suatu serangan siber yang membanjiri server dengan lalu lintas data palsu untuk membuatnya tidak dapat diakses oleh pengguna sah disebut...</p>
+                    <ul class="options">
+                        <li><label><input type="radio" name="q5" value="A"> A. Phishing</label></li>
+                        <li><label><input type="radio" name="q5" value="B"> B. DDoS Attack</label></li>
+                        <li><label><input type="radio" name="q5" value="C"> C. Malware</label></li>
+                        <li><label><input type="radio" name="q5" value="D"> D. Enkripsi</label></li>
+                    </ul>
+                </div>
+
+                <div class="quiz-question">
+                    <p>6. Layanan komputasi yang menyediakan sumber daya seperti server dan penyimpanan data melalui internet adalah...</p>
+                    <ul class="options">
+                        <li><label><input type="radio" name="q6" value="A"> A. Local Network</label></li>
+                        <li><label><input type="radio" name="q6" value="B"> B. Cloud Computing</label></li>
+                        <li><label><input type="radio" name="q6" value="C"> C. Sistem Terdistribusi</label></li>
+                        <li><label><input type="radio" name="q6" value="D"> D. Jaringan Peer-to-Peer</label></li>
+                    </ul>
+                </div>
+
+                <div class="quiz-question">
+                    <p>7. Dalam etika digital, tindakan menghormati karya orang lain dengan mencantumkan sumber aslinya disebut...</p>
+                    <ul class="options">
+                        <li><label><input type="radio" name="q7" value="A"> A. Atribusi</label></li>
+                        <li><label><input type="radio" name="q7" value="B"> B. Duplikasi</label></li>
+                        <li><label><input type="radio" name="q7" value="C"> C. Modifikasi</label></li>
+                        <li><label><input type="radio" name="q7" value="D"> D. Redistribusi</label></li>
+                    </ul>
+                </div>
+
+                <div class="quiz-question">
+                    <p>8. Berpikir komputasional adalah proses memecahkan masalah dengan menggunakan konsep yang sering digunakan dalam...</p>
+                    <ul class="options">
+                        <li><label><input type="radio" name="q8" value="A"> A. Menulis surat</label></li>
+                        <li><label><input type="radio" name="q8" value="B"> B. Memasak</label></li>
+                        <li><label><input type="radio" name="q8" value="C"> C. Pemrograman komputer</label></li>
+                        <li><label><input type="radio" name="q8" value="D"> D. Melukis</label></li>
+                    </ul>
+                </div>
+
+                <div class="quiz-question">
+                    <p>9. Teknologi yang memungkinkan mesin untuk belajar dari data dan membuat prediksi atau keputusan tanpa diprogram secara eksplisit adalah...</p>
+                    <ul class="options">
+                        <li><label><input type="radio" name="q9" value="A"> A. Internet of Things</label></li>
+                        <li><label><input type="radio" name="q9" value="B"> B. Big Data</label></li>
+                        <li><label><input type="radio" name="q9" value="C"> C. Cloud Computing</label></li>
+                        <li><label><input type="radio" name="q9" value="D"> D. Artificial Intelligence</label></li>
+                    </ul>
+                </div>
+
+                <div class="quiz-question">
+                    <p>10. Salah satu komponen utama yang mendorong terjadinya Revolusi Industri 4.0 adalah...</p>
+                    <ul class="options">
+                        <li><label><input type="radio" name="q10" value="A"> A. Mesin uap</label></li>
+                        <li><label><input type="radio" name="q10" value="B"> B. Listrik</label></li>
+                        <li><label><input type="radio" name="q10" value="C"> C. Otomatisasi dan pertukaran data</label></li>
+                        <li><label><input type="radio" name="q10" value="D"> D. Tenaga kerja manual</label></li>
+                    </ul>
+                </div>
+
+                <button type="submit" class="submit-btn">Kirim Jawaban</button>
+            </form>
+            
+            <div id="results-container">
+                <h3>Hasil Kuis Anda</h3>
+                <div id="score-container">
+                    <h4>Skor Anda</h4>
+                    <div id="score">0</div>
+                    <div id="score-message"></div>
+                </div>
+                <div id="explanations"></div>
+            </div>
+        </div>
+
+    </div>
+    <div class="footer">
+        &copy; 2025 Materi Informatika Kelas XII. Semua Hak Cipta Dilindungi.<br>
+        <div class="footer-info">
+            Karya: Reyhan Zada Arsyaka | Kelas: XII.2 | Sekolah: SMAN 1 Baturetno<br>
+            <a href="https://www.instagram.com/rreyzarsy" target="_blank">IG: @rreyzarsy</a> | 
+            <a href="https://www.tiktok.com/@reyza42025" target="_blank">TikTok: @reyza42025</a>
+        </div>
+        <div class="footer-ai-credit" style="font-size: 0.7em; margin-top: 5px;">
+            Code by AI ; Gemini
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('quiz-form').addEventListener('submit', function(event) {
+            // Ini adalah perintah kunci untuk mencegah halaman me-reload.
+            event.preventDefault();
+
+            const correctAnswers = {
+                q1: 'B',
+                q2: 'C',
+                q3: 'C',
+                q4: 'B',
+                q5: 'B',
+                q6: 'B',
+                q7: 'A',
+                q8: 'C',
+                q9: 'D',
+                q10: 'C'
+            };
+
+            const explanations = {
+                q1: 'Jawaban yang benar adalah **B. Literasi Digital**. Ini bukan hanya kemampuan menggunakan alat, tetapi juga pemahaman kritis terhadap informasi, etika digital, dan cara berinteraksi yang aman.',
+                q2: 'Jawaban yang benar adalah **C. Model OSI**. Model ini adalah kerangka kerja konseptual yang membagi proses komunikasi jaringan menjadi tujuh lapisan.',
+                q3: 'Jawaban yang benar adalah **C. Internet of Things (IoT)**. IoT merujuk pada jaringan perangkat fisik yang saling terhubung untuk mengumpulkan dan bertukar data.',
+                q4: 'Jawaban yang benar adalah **B. Big Data**. Konsep ini berkaitan dengan pengolahan dan analisis volume data yang sangat besar untuk mengungkap pola dan tren.',
+                q5: 'Jawaban yang benar adalah **B. DDoS Attack**. Serangan ini bertujuan membanjiri server dengan lalu lintas palsu agar tidak dapat diakses.',
+                q6: 'Jawaban yang benar adalah **B. Cloud Computing**. Layanan ini menyediakan sumber daya komputasi melalui internet, bukan secara lokal.',
+                q7: 'Jawaban yang benar adalah **A. Atribusi**. Memberikan atribusi adalah tindakan menghormati karya orang lain dengan mencantumkan sumbernya.',
+                q8: 'Jawaban yang benar adalah **C. Pemrograman komputer**. Berpikir komputasional adalah cara berpikir untuk memecahkan masalah yang sering digunakan oleh programmer.',
+                q9: 'Jawaban yang benar adalah **D. Artificial Intelligence**. AI adalah teknologi yang memungkinkan mesin untuk belajar dari data dan mengambil keputusan.',
+                q10: 'Jawaban yang benar adalah **C. Otomatisasi dan pertukaran data**. Ini adalah elemen inti dari Revolusi Industri 4.0 yang menggabungkan dunia fisik dan digital.'
+            };
+
+            let score = 0;
+            const totalQuestions = 10;
+            const pointsPerQuestion = 5;
+            const explanationsContainer = document.getElementById('explanations');
+            explanationsContainer.innerHTML = ''; // Kosongkan penjelasan sebelumnya
+
+            for (let i = 1; i <= totalQuestions; i++) {
+                const questionName = 'q' + i;
+                const userAnswer = document.querySelector('input[name="' + questionName + '"]:checked');
+                const correctAnswer = correctAnswers[questionName];
+
+                const explanationDiv = document.createElement('div');
+                explanationDiv.className = 'explanation';
+                
+                const questionP = document.createElement('h4');
+                questionP.innerHTML = `${i}. ${document.querySelector(`.quiz-question:nth-of-type(${i}) p`).textContent}`;
+
+                const explanationP = document.createElement('p');
+                
+                if (userAnswer && userAnswer.value === correctAnswer) {
+                    score += pointsPerQuestion;
+                    explanationDiv.classList.add('correct');
+                    explanationP.innerHTML = `Jawaban Anda **benar**! ${explanations[questionName]}`;
+                } else {
+                    explanationDiv.classList.add('incorrect');
+                    explanationP.innerHTML = `Jawaban Anda **salah**. Jawaban yang benar adalah **${correctAnswer}**. ${explanations[questionName]}`;
+                }
+
+                explanationDiv.appendChild(questionP);
+                explanationDiv.appendChild(explanationP);
+                explanationsContainer.appendChild(explanationDiv);
+            }
+
+            // Tampilkan hasil
+            const scoreElement = document.getElementById('score');
+            const scoreMessageElement = document.getElementById('score-message');
+            const resultsContainer = document.getElementById('results-container');
+            
+            scoreElement.textContent = `${score}/${totalQuestions * pointsPerQuestion}`;
+
+            let message = '';
+            if (score === 50) {
+                message = "Hebat! Anda menguasai materi ini dengan sempurna!";
+            } else if (score >= 35) {
+                message = "Bagus! Anda memiliki pemahaman yang baik tentang materi.";
+            } else {
+                message = "Terus semangat belajar! Anda bisa coba lagi untuk hasil yang lebih baik.";
+            }
+            scoreMessageElement.textContent = message;
+
+            resultsContainer.style.display = 'block';
+            resultsContainer.scrollIntoView({ behavior: 'smooth' });
+        });
+    </script>
+</body>
+</html>
